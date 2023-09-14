@@ -11,68 +11,109 @@
 <body>
   <div class="container">
     <form class="form">
-      <div class="form__title">
-        <h2>Dados do cliente</h2>
-      </div>
-      <div class="input-group">
-        <div>
-          <div class="input-box">
-            <label for="name">Nome Completo</label>
-            <input type="text" name="name" id="name" required>
-            <span class="erro mensagem-erro-nome">Digite um nome válido</span>
+      <div class="dados-pessoais">
+        <div class="form__title">
+          <h2>Dados do cliente</h2>
+        </div>
+        <div class="input-group">
+          <div>
+            <div class="input-box">
+              <label for="name">Nome Completo</label>
+              <input type="text" name="name" id="name" required>
+              <span class="erro mensagem-erro-nome">Digite um nome válido</span>
+            </div>
+            <div class="input-box">
+              <label for="cpf">Cpf</label>
+              <input type="number" name="cpf" id="cpf">
+              <span class="erro mensagem-erro-cpf">Digite um CPF válido</span>
+            </div>
           </div>
-          <div class="input-box">
-            <label for="cpf">Cpf</label>
-            <input type="number" name="cpf" id="cpf">
-            <span class="erro mensagem-erro-cpf">Digite um CPF válido</span>
+
+          <div>
+            <div class="input-box">
+              <label for="email">E-mail</label>
+              <input type="email" name="email" id="email">
+              <span class="erro mensagem-erro-email">Digite um E-mail válido</span>
+            </div>
+
+            <div class="input-box">
+              <label for="data">Data de Nascimento</label>
+              <input type="date" name="data" id="data">
+              <span class="erro mensagem-erro-dataNascimento">Selecione uma data existente</span>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div>
-          <div class="input-box">
-            <label for="email">E-mail</label>
-            <input type="email" name="email" id="email">
-            <span class="erro mensagem-erro-email">Digite um E-mail válido</span>
+      <div class="dados-residenciais">
+        <div class="form__subtitle">
+          <h3>Dados Residenciais</h3>
+        </div>
+
+        <div class="input-group">
+
+          <div>
+            <div class="input-box">
+              <label>Cep</label>
+              <input name="cep" type="text" id="cep" value="" maxlength="9" />
+            </div>
+            <div class="input-box">
+              <label for="cidade">Cidade</label>
+              <input name="cidade" type="text" id="cidade" disabled/>
+            </div>
+            <div class="input-box">
+              <label for="numeroCasa">Número</label>
+              <input type="number" name="numeroCasa" id="numeroCasa">
+            </div>
           </div>
 
-          <div class="input-box">
-            <label for="data">Data de Nascimento</label>
-            <input type="date" name="data" id="data">
-            <span class="erro mensagem-erro-dataNascimento">Selecione uma data existente</span>
+          <div>
+            <div class="input-box">
+              <label for="rua">Rua</label>
+              <input name="rua" type="text" id="rua" disabled/>
+            </div>
+            <div class="input-box">
+              <label for="bairro">Bairro</label>
+              <input name="bairro" type="text" id="bairro" disabled/>
+            </div>
+            <div class="input-box">
+              <label for="uf">Estado</label>
+              <input name="uf" type="text" id="uf" size="2" disabled/>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="form__subtitle">
-        <h3>Dados do cartão</h3>
-      </div>
+      <div class="dados-cartao">
+        <div class="form__subtitle">
+          <h3>Dados do cartão</h3>
+        </div>
 
-      <div class="input-box">
-        <label for="numeroCartao">Número do cartão</label>
-        <input type="number" name="numeroCartao" id="numeroCartao">
-        <span class="erro mensagem-erro-cartao">Digite um cartão válido</span>
-      </div>
-
-      <div class="input-group">
         <div class="input-box">
-          <label for="dataValidade">Validade</label>
-          <input type="number" name="dataValidade" id="dataValidade">
-          <span class="erro mensagem-erro-dataValidadeCartao">Data inválida</span>
+          <label for="numeroCartao">Número do cartão</label>
+          <input type="number" name="numeroCartao" id="numeroCartao">
+          <span class="erro mensagem-erro-cartao">Digite um cartão válido</span>
         </div>
 
-        <div class="input-box">
-          <label for="cvv">CVV</label>
-          <input type="number" name="cvv" id="cvv">
-          <p class="erro mensagem-erro-cvv">CVV inválido</p>
-        </div>
+        <div class="input-group">
+          <div class="input-box">
+            <label for="dataValidade">Validade</label>
+            <input type="number" name="dataValidade" id="dataValidade">
+            <span class="erro mensagem-erro-dataValidadeCartao">Data inválida</span>
+          </div>
 
+          <div class="input-box">
+            <label for="cvv">CVV</label>
+            <input type="number" name="cvv" id="cvv">
+            <p class="erro mensagem-erro-cvv">CVV inválido</p>
+          </div>
+        </div>
       </div>
+
       <div class="form__button">
         <button onclick="enviarFormulario(event)">Enviar</button>
       </div>
-  </div>
-
-  </form>
+    </form>
   </div>
 
   <script src="script.js"></script>
