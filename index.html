@@ -19,21 +19,21 @@
           <div>
             <div class="input-box">
               <label for="name">Nome Completo</label>
-              <input type="text" name="name" id="name" required>
-              <span class="erro mensagem-erro-nome">Digite um nome válido</span>
+              <input type="text" name="name" id="name" required autocomplete="off" onblur="verificarNome()">
+              <span class="erro mensagem-erro-nome"></span>
             </div>
             <div class="input-box">
-              <label for="cpf">Cpf</label>
-              <input type="number" name="cpf" id="cpf">
-              <span class="erro mensagem-erro-cpf">Digite um CPF válido</span>
+              <label for="cpf">CPF</label>
+              <input type="text" name="cpf" id="cpf" autocomplete="off" maxlength="14" onblur="cpfValid(cpf.value)">
+              <span class="erro mensagem-erro-cpf"></span>
             </div>
           </div>
 
           <div>
             <div class="input-box">
               <label for="email">E-mail</label>
-              <input type="email" name="email" id="email">
-              <span class="erro mensagem-erro-email">Digite um E-mail válido</span>
+              <input type="email" name="email" id="email" onblur="validateEmail(email.value)">
+              <span class="erro mensagem-erro-email"></span>
             </div>
 
             <div class="input-box">
@@ -54,8 +54,9 @@
 
           <div>
             <div class="input-box">
-              <label>Cep</label>
-              <input name="cep" type="text" id="cep" value="" maxlength="9" />
+              <label>CEP</label>
+              <input name="cep" type="text" id="cep" maxlength="9"/>
+              <span class="erro mensagem-erro-cep">Cep não encontrado</span>
             </div>
             <div class="input-box">
               <label for="cidade">Cidade</label>
@@ -116,6 +117,7 @@
     </form>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
   <script src="script.js"></script>
 </body>
 

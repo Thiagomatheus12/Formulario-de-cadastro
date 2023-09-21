@@ -1,49 +1,91 @@
+const mensagemErroEmail = document.querySelector('.mensagem-erro-email')
+const mensagemErroCpf = document.querySelector('.mensagem-erro-cpf')
+const mensagemErroCep = document.querySelector('.mensagem-erro-cep')
+const mensagemErroNome = document.querySelector('.mensagem-erro-nome')
+//Dados pessoais
 const nome = document.querySelector('#name')
-const email = document.getElementById("email");
+const emailInput = document.getElementById("email");
 const textMessage = document.querySelector('.error');
-const cpf = document.querySelector('#cpf');
-console.log(nome.value)
+const cpfInput = document.querySelector('#cpf');
+
+//Dados Residenciais
+const cepInput = document.querySelector('#cep');
+const rua = document.getElementById('rua');
+const bairro = document.getElementById('bairro')
+const cidade = document.getElementById('cidade')
+const uf = document.getElementById('uf');
 
 function enviarFormulario(e) {
   e.preventDefault();
   const nomeValido = verificarNome();
-  const emailValido = validateEmail(email.value);
-  const cpfValido = cpfValid(cpf.value);
+  const emailValido = validateEmail(emailInput.value);
+  const cpfValido = cpfValid(cpfInput.value);
   const cepValido = consultaCep()
-  
+
 
   if (nomeValido && emailValido && cpfValido && cepValido) {
+    cepInput.classList.remove('erro-cep')
     return console.log('enviado com sucesso')
   } else {
+    cepInput.classList.add('erro-cep')
+    alert('Preencha todos os campos')
     return console.log('preencha todos os campos')
   }
 }
 
 function verificarNome() {
   const nomeValue = nome.value
-  if (nomeValue !== "") {
+  const nomeRegex = /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi;
+  if (nomeValue === '') {
+    mensagemErroNome.classList.add('d-block')
+    mensagemErroNome.textContent = 'Por favor preencha o campo'
+  } 
+  else if (nomeValue !== "" && nomeRegex.test(nomeValue)) {
+    mensagemErroNome.classList.remove('d-block')
     return true
-  } else {
+  } 
+  else {
+    mensagemErroNome.textContent = 'Digite um nome válido'
+    mensagemErroNome.classList.add('d-block')
     return false
   }
 }
 
 function validateEmail(email) {
   const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (regex.test(String(email).toLowerCase())) {
+  if(emailInput.value === '') {
+    mensagemErroEmail.classList.add('d-block')
+    mensagemErroEmail.textContent = 'Por favor preencha o campo'
+  } 
+  else if (regex.test(String(email).toLowerCase())) {
+    mensagemErroEmail.classList.remove('d-block')
     return true
-  } else {
-    alert('Email invalido')
+  } 
+  else {
+    mensagemErroEmail.textContent = 'Digite um email válido'
+    mensagemErroEmail.classList.add('d-block')
     return false
   }
 }
 
+
+
 function cpfSplit(cpf) {
+  if(cpf.length === 0) {
+    mensagemErroCpf.classList.add('d-block')
+    mensagemErroCpf.textContent = 'Por favor preencha o campo'
+    return false;
+  }
+
   if (typeof cpf === 'number') cpf = cpf.toString();
   cpf = cpf.replace('-', '');
   cpf = cpf.replaceAll('.', '');
-
-  if (cpf.length !== 11) return alert('cpf invalido');
+  if (cpf.length !== 11) {
+    mensagemErroCpf.classList.add('d-block')
+    mensagemErroCpf.textContent = 'CPF deve conter 11 digitos'
+    return false;
+  }
+  mensagemErroCpf.classList.remove('d-block')
   return cpf.split('').map(Number);
 }
 
@@ -68,45 +110,55 @@ function invalidType(digit, cpfSplitted, index) {
 }
 
 function cpfValid(cpf) {
+  if(cpf.value === '') {
+    mensagemErroCpf.textContent = 'Por favor preencha o campo'
+    console.log('value 0')
+    return false
+  }
   const arrayMultipliers = [10, 9, 8, 7, 6, 5, 4, 3, 2];
   const cpfSplitted = cpfSplit(cpf);
   if (!cpfSplitted) { return false; }
 
   const remainderOne = remainder(arrayMultipliers, cpfSplitted);
   let checkerDigitOne = returnVerifyingDigit(remainderOne);
-  if (invalidType(checkerDigitOne, cpfSplitted, 9)) return false;
-
+  if (invalidType(checkerDigitOne, cpfSplitted, 9)) {
+    mensagemErroCpf.classList.add('d-block')
+    mensagemErroCpf.textContent = 'Digite um cpf válido'
+    return false;
+  }
+  
   arrayMultipliers.unshift(11);
   const remainderTwo = remainder(arrayMultipliers, cpfSplitted);
   let checkerDigitTwo = returnVerifyingDigit(remainderTwo);
-  if (invalidType(checkerDigitTwo, cpfSplitted, 10)) return false;
+  if (invalidType(checkerDigitTwo, cpfSplitted, 10)) {
+    mensagemErroCpf.classList.add('d-block')
+    mensagemErroCpf.textContent = 'Digite um cpf válido'
+    return false;
+  } 
+  mensagemErroCpf.classList.remove('d-block')
 
   return true
 }
-
-const cepInput = document.querySelector('#cep');
-const rua = document.getElementById('rua');
-const bairro = document.getElementById('bairro')
-const cidade = document.getElementById('cidade')
-const uf = document.getElementById('uf');
 
 cepInput.addEventListener('input', consultaCep);
 
 function consultaCep() {
   let cep = cepInput.value.replace(/\D/g, '');
+  if (cep.length === 0) {
+  } else if (cep.length !== 8) {
+  }
+
   if (cep.length === 8) {
     let url = `https://viacep.com.br/ws/${cep}/json/`;
-
     fetch(url)
       .then(res => res.json())
-      .then(data => {
-        if (!data.erro) {
-          completarCampos(data);
-          inputDesabilitado()
+      .then(response => {
+        if (!response.erro) {
+          completarCampos(response);
+          habilitaInput(true)
         } else {
-          inputHabilitado()
           limpaFormulárioCep();
-          alert("CEP não encontrado.");
+          habilitaInput(false)
         }
       })
       .catch(error => {
@@ -118,13 +170,6 @@ function consultaCep() {
   }
 }
 
-function limpaFormulárioCep() {
-  rua.value = "";
-  bairro.value = "";
-  cidade.value = "";
-  uf.value = "";
-}
-
 function completarCampos(dados) {
   rua.value = dados.logradouro;
   bairro.value = dados.bairro;
@@ -132,19 +177,32 @@ function completarCampos(dados) {
   uf.value = dados.uf;
 }
 
-function inputHabilitado() {
-  rua.disabled = false;
-  bairro.disabled = false;
-  cidade.disabled = false;
-  uf.disabled = false;
-}
-function inputDesabilitado() {
-  rua.disabled = true;
-  bairro.disabled = true;
-  cidade.disabled = true;
-  uf.disabled = true;
+function limpaFormulárioCep() {
+  rua.value = "";
+  bairro.value = "";
+  cidade.value = "";
+  uf.value = "";
 }
 
+
+function habilitaInput(desabilita) {
+  rua.disabled = desabilita;
+  bairro.disabled = desabilita;
+  cidade.disabled = desabilita;
+  uf.disabled = desabilita;
+}
+
+let cpfCleave = new Cleave('#cpf', {
+  delimiters: ['.', '.', '-'],
+  blocks: [3, 3, 3, 2],
+  numericOnly: true
+});
+
+let cepCleave = new Cleave('#cep', {
+  delimiters: ['-'],
+  blocks: [5, 3],
+  numericOnly: true
+});
 
 
 
